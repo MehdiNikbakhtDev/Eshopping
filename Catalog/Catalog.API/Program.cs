@@ -1,25 +1,21 @@
-var builder = WebApplication.CreateBuilder( args );
+using System.Diagnostics;
+using Common.Logging;
+using Serilog;
 
-// Add services to the container.
+namespace Catalog.API;
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+public class Program
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    public static void Main(string[] args)
+    {
+        Activity.DefaultIdFormat = ActivityIdFormat.W3C;
+        CreateHostBuilder( args ).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder( args )
+            .ConfigureWebHostDefaults( webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            } ).UseSerilog( Logging.ConfigureLogger );
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
