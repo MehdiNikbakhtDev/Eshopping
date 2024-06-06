@@ -15,7 +15,15 @@ public class Program
     private static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder( args )
             .ConfigureWebHostDefaults( webBuilder =>
-            {
+{
                 webBuilder.UseStartup<Startup>();
             } ).UseSerilog( Logging.ConfigureLogger );
 }
+
+app.UseHttpsRedirection();
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
