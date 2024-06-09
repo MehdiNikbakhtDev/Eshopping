@@ -12,6 +12,7 @@ public static class Logging
     public static Action<HostBuilderContext, LoggerConfiguration> ConfigureLogger =>
         (context, loggerConfiguration) =>
         {
+
             var env = context.HostingEnvironment;
             loggerConfiguration.MinimumLevel.Information()
                 .Enrich.FromLogContext()
